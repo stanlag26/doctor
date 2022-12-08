@@ -7,8 +7,6 @@ import '../../../const/const.dart';
 import 'add_recipes_model.dart';
 
 
-
-
 class AddRecipesProviderWidget extends StatelessWidget {
   const AddRecipesProviderWidget({Key? key}) : super(key: key);
 
@@ -58,6 +56,7 @@ class AddRecipes extends StatelessWidget {
             MyButton(
                 myText: Text('Добавить фото лекарства'),
                 onPress: () {
+                  model.myShowAdaptiveActionSheet(context);
                 }),
             SizedBox(
               height: 15,
@@ -81,7 +80,7 @@ class AddRecipes extends StatelessWidget {
                           children: [
                             ListTile(
                               leading:Icon(FontAwesomeIcons.clock),
-                              title: Text(model.interval[index].toString()),
+                              title: Text('${model.interval[index].hour.toString()}:${model.interval[index].minute.toString()}'),
                               trailing: IconButton(
                                 onPressed: () {
                                   model.delTime(index);
