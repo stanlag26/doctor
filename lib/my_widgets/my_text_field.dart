@@ -12,6 +12,8 @@ class MyTextField extends StatelessWidget {
   int maxLine;
   TextInputType textType;
 
+  final ValueChanged<String>? onChanged;
+
 
   MyTextField({
     Key? key,
@@ -20,6 +22,7 @@ class MyTextField extends StatelessWidget {
     this.mask = false,
     this.maxLine = 1,
     this.textType = TextInputType.text,
+    this.onChanged
   }) : super(key: key);
 
   @override
@@ -27,6 +30,7 @@ class MyTextField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top:20, left: 30, right: 30),
       child: TextField(
+        onChanged: onChanged,
         obscureText: mask,
         controller: controller,
         maxLines: maxLine,

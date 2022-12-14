@@ -1,6 +1,8 @@
+import 'package:doctor/my_widgets/my_avatar_photo.dart';
 import 'package:doctor/my_widgets/my_button.dart';
 import 'package:doctor/my_widgets/my_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../const/const.dart';
@@ -19,9 +21,8 @@ class AddRecipesProviderWidget extends StatelessWidget {
 
 class AddRecipes extends StatelessWidget {
   AddRecipes({Key? key}) : super(key: key);
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController amountOfDaysController = TextEditingController();
+  final TextEditingController namePillController = TextEditingController();
+  final TextEditingController descriptionPillController = TextEditingController();
 
 
   @override
@@ -33,22 +34,51 @@ class AddRecipes extends StatelessWidget {
             'Лекарь',
             style: MyTextStyle.textStyle25,
           ),
+          actions: [
+            IconButton(
+               onPressed: () async {
+                 showDialog(
+                     // barrierDismissible: false,
+                     context: context,
+                     builder: (BuildContext context) {
+                       return Center(child: CircularProgressIndicator(),);
+                     });
+
+                String error = await model.compliteCourseAndToFirebase();
+
+                if (error!= '') {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  Fluttertoast.showToast(
+                      msg: error,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } else {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  Navigator.pop(context);
+                }
+                },
+                icon: Icon(
+                  FontAwesomeIcons.floppyDisk, size: 25,
+                )),
+            SizedBox(width: 20,)
+          ],
           centerTitle: true),
       body: SafeArea(
         child: ListView(
           children: [
             MyTextField(
-                hintTextField: 'Название лекарства',
-                controller: nameController),
+              onChanged: (value) => model.namePill = value,
+              hintTextField: 'Название лекарства',
+              controller: namePillController),
             MyTextField(
+              onChanged: (value) => model.descriptionPill = value,
               hintTextField: 'Описание лекарства',
-              controller: descriptionController,
-              maxLine: 5,
-            ),
-            MyTextField(
-              hintTextField: 'Количество дней курса',
-              controller: amountOfDaysController,
-              textType: TextInputType.number,
+              controller: descriptionPillController,
+              maxLine: 3,
             ),
             SizedBox(
               height: 15,
@@ -59,7 +89,13 @@ class AddRecipes extends StatelessWidget {
                   model.myShowAdaptiveActionSheet(context);
                 }),
             SizedBox(
-              height: 15,
+              height: 10,
+            ),
+            model.tumbler == true
+                ?  MyAvatarPhoto(avatar: model.photoPill, radiusOut: 70, radiusIn: 69)
+            : Container(),
+            SizedBox(
+              height: 10,
             ),
             MyButton(
                 myText: Text('Добавить время приема лекарств'),
@@ -67,12 +103,12 @@ class AddRecipes extends StatelessWidget {
                   model.addTime(context);
                 }),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Container(
               height: 300,
               child: ListView.builder(
-                  itemCount: model.interval.length,
+                  itemCount: model.timeOfReceipt.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                         elevation: 4.0,
@@ -80,7 +116,7 @@ class AddRecipes extends StatelessWidget {
                           children: [
                             ListTile(
                               leading:Icon(FontAwesomeIcons.clock),
-                              title: Text('${model.interval[index].hour.toString()}:${model.interval[index].minute.toString()}'),
+                              title: Text(model.timeOfReceipt[index].substring(10,15)),
                               trailing: IconButton(
                                 onPressed: () {
                                   model.delTime(index);
@@ -90,10 +126,11 @@ class AddRecipes extends StatelessWidget {
                           ],
                         ));
                   }),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
+

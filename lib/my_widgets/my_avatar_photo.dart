@@ -16,7 +16,7 @@ class MyAvatarPhoto extends StatelessWidget {
       backgroundColor: Colors.black,
       child: CircleAvatar(
         radius: radiusIn,
-        backgroundImage: FileImage(File(avatar)),
+        backgroundImage: FileImage(File(avatar)) ,
       ),
     );
   }
