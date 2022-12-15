@@ -8,13 +8,14 @@ import 'package:flutter/material.dart';
 
 class MyAvatar extends StatelessWidget {
   final String avatar;
-  final String name;
-  final String timeOfReceipt;
+  final String namePill;
+
+  String timeOfReceipt;
 
   final VoidCallback onPress;
-  const MyAvatar({
+  MyAvatar({
     Key? key,
-    required this.avatar, required this.onPress, required this.name, required this.timeOfReceipt,
+    required this.avatar, required this.onPress, required this.namePill, this.timeOfReceipt ='',
   }) : super(key: key);
 
   @override
@@ -32,12 +33,22 @@ class MyAvatar extends StatelessWidget {
                 backgroundColor: Colors.black,
                 child: CircleAvatar(
                   radius: 40,
+                  backgroundColor: Colors.white,
                   backgroundImage: NetworkImage(avatar)),
                 ),
               const SizedBox(
                 width: 30,
               ),
-              Expanded(child: Text( name, style: const TextStyle(fontSize: 20))),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text( namePill, style: const TextStyle(fontSize: 20)),
+                    Text( timeOfReceipt, style: const TextStyle(fontSize: 15)),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

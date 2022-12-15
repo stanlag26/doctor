@@ -38,7 +38,7 @@ class AddRecipes extends StatelessWidget {
             IconButton(
                onPressed: () async {
                  showDialog(
-                     // barrierDismissible: false,
+                     barrierDismissible: false,
                      context: context,
                      builder: (BuildContext context) {
                        return Center(child: CircularProgressIndicator(),);

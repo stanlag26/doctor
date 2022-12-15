@@ -14,7 +14,7 @@ class MainWidgetModel extends ChangeNotifier{
 
  List<Widget> widgetOptions = <Widget>[
     Text('my'),
-     Recipes(),
+   RecipesProviderWidget(),
   ];
 
 
