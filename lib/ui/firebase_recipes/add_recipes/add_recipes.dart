@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../const/const.dart';
 import 'add_recipes_model.dart';
+import 'dart:io';
 
 
 class AddRecipesProviderWidget extends StatelessWidget {
@@ -84,7 +85,7 @@ class AddRecipes extends StatelessWidget {
               height: 15,
             ),
             MyButton(
-                myText: Text('Добавить фото лекарства'),
+                myText: model.tumbler != true ? Text('Добавить фото лекарства'): Text('Изменить фото лекарства'),
                 onPress: () {
                   model.myShowAdaptiveActionSheet(context);
                 }),
@@ -92,7 +93,7 @@ class AddRecipes extends StatelessWidget {
               height: 10,
             ),
             model.tumbler == true
-                ?  MyAvatarPhoto(avatar: model.photoPill, radiusOut: 70, radiusIn: 69)
+                ?  MyAvatarPhoto(photo:Image.file(File(model.photoPill), fit: BoxFit.cover))
             : Container(),
             SizedBox(
               height: 10,

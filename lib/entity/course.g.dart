@@ -7,19 +7,23 @@ part of 'course.dart';
 // **************************************************************************
 
 Course _$CourseFromJson(Map<String, dynamic> json) => Course(
-      id: json['id'] as String,
+      idDoc: json['idDoc'] as String? ?? '',
+      idUser: json['idUser'] as String,
       namePill: json['namePill'] as String,
       descriptionPill: json['descriptionPill'] as String,
       photoPill: json['photoPill'] as String,
+      namePhotoPillInStorage: json['namePhotoPillInStorage'] as String,
       timeOfReceipt: (json['timeOfReceipt'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
-      'id': instance.id,
+      'idDoc': instance.idDoc,
+      'idUser': instance.idUser,
       'namePill': instance.namePill,
       'descriptionPill': instance.descriptionPill,
       'photoPill': instance.photoPill,
+      'namePhotoPillInStorage': instance.namePhotoPillInStorage,
       'timeOfReceipt': instance.timeOfReceipt,
     };
