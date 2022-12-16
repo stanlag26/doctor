@@ -17,19 +17,21 @@ class AddRecipesModel extends ChangeNotifier {
   final userId = FirebaseAuth.instance.currentUser?.uid;
 
 
+
   Future<String> compliteCourseAndToFirebase() async {
     if (userId  != null &&
         namePill != '' &&
         descriptionPill != '' &&
         photoPill != 'images/pills.jpg'&&
         timeOfReceipt != []) {
-      photoPill =await FireBaseApi.loadImageOnStorage(pickedFile!, namePill);
+      photoPill =await FireBaseApi.loadImageOnStorage(pickedFile!);
       Course course = Course(
-          id: userId ?? '',
+          idUser: userId ?? '',
           namePill: namePill,
           descriptionPill: descriptionPill,
           photoPill: photoPill,
-          timeOfReceipt: timeOfReceipt);
+          timeOfReceipt: timeOfReceipt,
+          namePhotoPillInStorage: pickedFile!.name.substring(32));
       String error = await FireBaseApi.createCourse(course);
       return error;
     } else {
@@ -116,6 +118,9 @@ class AddRecipesModel extends ChangeNotifier {
   }
 
   _getFromGallery() async {
+    if (tumbler == true) {
+      File(pickedFile!.path).delete();
+    }
     final ImagePicker picker = ImagePicker();
     pickedFile = (await picker.pickImage(
       source: ImageSource.gallery,
@@ -124,9 +129,7 @@ class AddRecipesModel extends ChangeNotifier {
       imageQuality: 100,
     ));
     if (pickedFile != null) {
-      if (tumbler == true) {
-        File(pickedFile!.path).delete();
-      }
+
       photoPill = pickedFile!.path;
       print(pickedFile!.path);
       tumbler = true;

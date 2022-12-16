@@ -5,17 +5,23 @@ part 'course.g.dart';
 
 @JsonSerializable()
 class Course{
-  late final String id;
+  String idDoc;
+  late final String idUser;
   late final String namePill;
   late final String descriptionPill;
   late final String photoPill;
+  late final String namePhotoPillInStorage;
+
+
   late final List <String> timeOfReceipt;
 
   Course({
-    required this.id,
+    this.idDoc = '',
+    required this.idUser,
     required this.namePill,
     required this.descriptionPill,
     required this.photoPill,
+    required this.namePhotoPillInStorage,
     required this.timeOfReceipt,
   });
 

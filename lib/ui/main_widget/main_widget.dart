@@ -22,17 +22,7 @@ class MainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MainWidgetModel>();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-        theme: ThemeData(
-        appBarTheme:  AppBarTheme(
-        elevation: 0,
-        backgroundColor: Colors.white10,
-        iconTheme: const IconThemeData(color: Colors.grey, size: 15),
-    titleTextStyle: MyTextStyle.textStyle25),),
-
-    home: Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: Text('Лекарь', style: MyTextStyle.textStyle25,),
         centerTitle: true,
@@ -66,7 +56,7 @@ class MainWidget extends StatelessWidget {
 
 
 
-    ),
+
     );
   }
 }
