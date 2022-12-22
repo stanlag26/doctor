@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
+import '../../../api/firebase_api/firebase_api.dart';
 import '../../../const/const.dart';
 import '../../../entity/course.dart';
 import '../../../my_widgets/my_avatar_photo.dart';
@@ -22,8 +23,6 @@ class OneRecipesProviderWidget extends StatelessWidget {
         child:  OneRecipes(course: course,));
   }
 }
-
-
 
 
 class OneRecipes extends StatelessWidget {
@@ -50,6 +49,17 @@ class OneRecipes extends StatelessWidget {
             style: MyTextStyle.textStyle25,
           ),
           actions: [
+            IconButton(onPressed: () {
+              showDialog(
+                  // barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(child: CircularProgressIndicator(),);
+                  });
+              model.saveCoursesToHive(context);
+
+            },
+                icon: Icon(FontAwesomeIcons.plus, size: 25)),
             IconButton(
                 onPressed: ()  async {
                   showDialog(

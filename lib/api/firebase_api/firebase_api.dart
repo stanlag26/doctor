@@ -4,8 +4,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-
 import '../../entity/course.dart';
 
 class FireBaseApi {
@@ -24,7 +24,7 @@ class FireBaseApi {
   static Future <String> loadImageOnStorage (XFile pickedFile ) async {
       final storageRef = FirebaseStorage.instance.ref();
       final referenceDirImage = storageRef.child('images');
-      final referenceImageToUpload = referenceDirImage.child(pickedFile.name.substring(32));
+      final referenceImageToUpload = referenceDirImage.child(pickedFile.name);
       try {
       await referenceImageToUpload.putFile(File(pickedFile.path));
       File(pickedFile.path).delete();
@@ -70,32 +70,30 @@ class FireBaseApi {
     await storageRef.child('images/$namePhotoPillInStorage').delete();
 
     final referenceDirImage = storageRef.child('images');
-    final referenceImageToUpload = referenceDirImage.child(pickedFile.name.substring(32));
+    final referenceImageToUpload = referenceDirImage.child(pickedFile.name);
 
        await referenceImageToUpload.putFile(File(pickedFile.path));
        File(pickedFile.path).delete();
        String photoPill = await referenceImageToUpload.getDownloadURL();
        return photoPill;
+  }
 
+
+  static Future downloadFile (String namePhotoPillInStorage) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final ref = storageRef.child('images/$namePhotoPillInStorage');
+    final dir = await getApplicationDocumentsDirectory();
+    final file =  File('${dir.path}/${ref.name}');
+    print('${dir.path}/${ref.name}');
+    await ref.writeToFile(file);
+    return '${dir.path}/${ref.name}';
+    
+    // ScaffoldMessenger.of(context).showSnackBar(context: Text('Download ${ref.name}'));
 
   }
 
+
+
+
 }
 
-// try {
-// if (pickedFile == null) {
-// await referenceImageToUpload.putFile(File(photoPill));
-// String photoPass = await referenceImageToUpload.getDownloadURL() ;
-// return photoPass;}
-// } on FirebaseException catch (e) {
-// return "${e.code}:${e.message}";
-// }
-//
-// try {
-// await referenceImageToUpload.putFile(File(pickedFile.path));
-// File(pickedFile.path).delete();
-// String photoPill = await referenceImageToUpload.getDownloadURL() ;
-// return photoPill;
-// } on FirebaseException catch (e) {
-// return "${e.code}:${e.message}";
-// }

@@ -1,4 +1,5 @@
 import 'package:doctor/ui/main_widget/main_widget.dart';
+import 'package:doctor/ui/my_courses/hive_courses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../const/const.dart';
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
         '/sign-in': (context) =>  const  RegisterSingInProviderWidget(),
         '/sign-in/forgot': (context) =>  ForgotWidget(),
         '/recides': (context) =>  RecipesProviderWidget(),
-        '/recides/add': (context) =>  AddRecipesProviderWidget(),
-        '/recides/one': (context) =>  OneRecipesProviderWidget()
+        '/recides/add': (context) =>  const AddRecipesProviderWidget(),
+        '/recides/one': (context) =>  const OneRecipesProviderWidget(),
+        '/courses': (context) =>  const CoursesProviderWidget(),
 
 
 

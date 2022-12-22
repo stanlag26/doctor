@@ -31,7 +31,7 @@ class AddRecipesModel extends ChangeNotifier {
           descriptionPill: descriptionPill,
           photoPill: photoPill,
           timeOfReceipt: timeOfReceipt,
-          namePhotoPillInStorage: pickedFile!.name.substring(32));
+          namePhotoPillInStorage: pickedFile!.name);
       String error = await FireBaseApi.createCourse(course);
       return error;
     } else {
@@ -124,8 +124,8 @@ class AddRecipesModel extends ChangeNotifier {
     final ImagePicker picker = ImagePicker();
     pickedFile = (await picker.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 800,
+      maxHeight: 800,
       imageQuality: 100,
     ));
     if (pickedFile != null) {

@@ -2,10 +2,11 @@
 
 import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:doctor/entity/course_hive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../../api/firebase_api/firebase_api.dart';
 import '../../../entity/course.dart';
 
@@ -38,7 +39,7 @@ class OneRecipesModel extends ChangeNotifier{
           descriptionPill: descriptionPill,
           photoPill: photoPill,
           timeOfReceipt: timeOfReceipt,
-          namePhotoPillInStorage: tumbler == true ? pickedFile!.name.substring(32)
+          namePhotoPillInStorage: tumbler == true ? pickedFile!.name
              :namePhotoPillInStorage);
       String error = await FireBaseApi.editCourse(course);
       return error;
@@ -46,7 +47,6 @@ class OneRecipesModel extends ChangeNotifier{
       return 'Не заполнены все поля';
     }
   }
-
 
   void addTime(BuildContext context) async {
     final timeOfDay = await showTimePicker(
@@ -63,8 +63,6 @@ class OneRecipesModel extends ChangeNotifier{
     timeOfReceipt.removeAt(index);
     notifyListeners();
   }
-
-
 
   void myShowAdaptiveActionSheet(BuildContext context) {
     showAdaptiveActionSheet(
@@ -120,9 +118,9 @@ class OneRecipesModel extends ChangeNotifier{
     final ImagePicker picker = ImagePicker();
     pickedFile = (await picker.pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1000,
-      maxHeight: 1000,
-      imageQuality: 1,
+      maxWidth: 800,
+      maxHeight: 800,
+      imageQuality: 100,
     ));
     if (pickedFile != null) {
 
@@ -135,32 +133,15 @@ class OneRecipesModel extends ChangeNotifier{
     }
   }
 
-// загрузка из камеры
-// _getFromCamera() async {
-//   final ImagePicker picker = ImagePicker();
-//   pickedFile =
-//   (await picker.pickImage(source: ImageSource.camera,
-//     maxWidth: 1800,
-//     maxHeight: 1800,))!;
-//   if (tumbler == true){File(pickedFile.path).delete();}
-//   photoPill = pickedFile.path;
-//   print(pickedFile.path);
-//   tumbler = true;
-//   notifyListeners();
-//   }
 
-// if (pickedFile != null){
-// final storageRef = FirebaseStorage.instance.ref();
-// final referenceDirImage = storageRef.child('images');
-// final referenceImageToUpload = referenceDirImage.child(pickedFile!.name);
-// try {
-// await referenceImageToUpload.putFile(File(pickedFile!.path));
-// photoPill = await referenceImageToUpload.getDownloadURL() ;
-// } catch(error){ print(error);}
-// print(photoPill);
-// File(pickedFile!.path).delete();
-// tumbler = true;
-// notifyListeners();
+  void saveCoursesToHive( BuildContext context) async{
+    final box = await Hive.openBox<CourseHive>('courses_box');
+    final String photoPillHive = await FireBaseApi.downloadFile(namePhotoPillInStorage);
+    final course = CourseHive(namePill: namePill, descriptionPill: descriptionPill, photoPill: photoPillHive, timeOfReceipt: timeOfReceipt);
+    await box.add(course);//  добавляем сохраненную группу в список
+
+    Navigator.pushNamed(context, '/');
+  }
 
 
 

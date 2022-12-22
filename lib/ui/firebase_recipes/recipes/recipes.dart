@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor/my_widgets/my_avatar.dart';
 import 'package:doctor/ui/firebase_recipes/recipes/recipes_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/firebase_api/firebase_api.dart';
@@ -29,10 +31,10 @@ class Recipes extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('Course')
-            .where("idUser", isEqualTo: "HgpJgQ9FppebnBmiuvNIbgKgiMG3")
+            .where("idUser", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: Text('Нет данных'));
+          if (!snapshot.hasData) return Container();
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (BuildContext context, int index) {
@@ -106,12 +108,12 @@ class CardWidget extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(context, '/recides/one', arguments: course);
           },
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              course.photoPill,
-            ),
-          ),
+          // leading: ClipRRect(
+          //   borderRadius: BorderRadius.circular(8.0),
+          //   child: Image.asset(
+          //       'images/pills.jpg'
+          //   ),
+          // ),
           title: Text(course.namePill),
           subtitle: Text(TimeOfDateConvert.listInString(course.timeOfReceipt)),
           trailing: IconButton(
@@ -119,7 +121,7 @@ class CardWidget extends StatelessWidget {
                 _showMyDialog();
               },
               icon: const Icon(
-                Icons.delete,
+                FontAwesomeIcons.bucket,
                 color: Colors.deepOrange,
               ))),
     );

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'course.g.dart';
@@ -11,8 +11,6 @@ class Course{
   late final String descriptionPill;
   late final String photoPill;
   late final String namePhotoPillInStorage;
-
-
   late final List <String> timeOfReceipt;
 
   Course({
