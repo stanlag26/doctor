@@ -108,7 +108,7 @@ class AddRecipesModel extends ChangeNotifier {
               ],
             ),
             onPressed: (BuildContext context) {
-              // _getFromCamera();
+              _getFromCamera();
               Navigator.pop(context);
             }),
       ],
@@ -139,31 +139,27 @@ class AddRecipesModel extends ChangeNotifier {
     }
   }
 
-// загрузка из камеры
-// _getFromCamera() async {
-//   final ImagePicker picker = ImagePicker();
-//   pickedFile =
-//   (await picker.pickImage(source: ImageSource.camera,
-//     maxWidth: 1800,
-//     maxHeight: 1800,))!;
-//   if (tumbler == true){File(pickedFile.path).delete();}
-//   photoPill = pickedFile.path;
-//   print(pickedFile.path);
-//   tumbler = true;
-//   notifyListeners();
-//   }
 
-  // if (pickedFile != null){
-  // final storageRef = FirebaseStorage.instance.ref();
-  // final referenceDirImage = storageRef.child('images');
-  // final referenceImageToUpload = referenceDirImage.child(pickedFile!.name);
-  // try {
-  // await referenceImageToUpload.putFile(File(pickedFile!.path));
-  // photoPill = await referenceImageToUpload.getDownloadURL() ;
-  // } catch(error){ print(error);}
-  // print(photoPill);
-  // File(pickedFile!.path).delete();
-  // tumbler = true;
-  // notifyListeners();
+  _getFromCamera() async {
+    if (tumbler == true) {
+      File(pickedFile!.path).delete();
+    }
+    final ImagePicker picker = ImagePicker();
+    pickedFile = (await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 800,
+      maxHeight: 800,
+      imageQuality: 100,
+    ));
+    if (pickedFile != null) {
+
+      photoPill = pickedFile!.path;
+      print(pickedFile!.path);
+      tumbler = true;
+      notifyListeners();
+    } else {
+      return;
+    }
+  }
 
 }

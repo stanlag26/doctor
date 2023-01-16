@@ -1,5 +1,5 @@
 import 'package:doctor/ui/main_widget/main_widget.dart';
-import 'package:doctor/ui/my_courses/hive_courses.dart';
+import 'package:doctor/ui/my_courses/courses/hive_courses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../const/const.dart';
@@ -8,6 +8,7 @@ import 'auth/sing_in_reg/sing_in_reg.dart';
 import 'firebase_recipes/add_recipes/add_recipes.dart';
 import 'firebase_recipes/one_recipe/one_recipe.dart';
 import 'firebase_recipes/recipes/recipes.dart';
+import 'my_courses/one_course/one_course.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/recides/add': (context) =>  const AddRecipesProviderWidget(),
         '/recides/one': (context) =>  const OneRecipesProviderWidget(),
         '/courses': (context) =>  const CoursesProviderWidget(),
+        '/courses/one': (context) =>  const OneCourse(),
 
 
 

@@ -102,6 +102,7 @@ class AddRecipes extends StatelessWidget {
                 myText: Text('Добавить время приема лекарств'),
                 onPress: () {
                   model.addTime(context);
+                  FocusManager.instance.primaryFocus?.unfocus();
                 }),
             SizedBox(
               height: 10,

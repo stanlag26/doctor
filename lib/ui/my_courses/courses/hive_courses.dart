@@ -1,11 +1,13 @@
 
 import 'dart:io';
+import 'package:doctor/entity/course_hive.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../api/timeofdate/timeofdate.dart';
+import '../../../api/timeofdate/timeofdate.dart';
+import '../../../entity/course.dart';
 import 'hive_courses_model.dart';
 
 class CoursesProviderWidget extends StatelessWidget {
@@ -79,7 +81,10 @@ class CardWidget extends StatelessWidget {
       shadowColor: Colors.black,
       child: ListTile(
           tileColor: Colors.white,
-          onTap: () {},
+          onTap: () {
+            CourseHive courseHive = model.courses[indexInList];
+            Navigator.pushNamed(context, '/courses/one', arguments: courseHive);
+          },
           leading: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.file(File(model.courses[indexInList].photoPill)),

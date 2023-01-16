@@ -108,12 +108,7 @@ class CardWidget extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(context, '/recides/one', arguments: course);
           },
-          // leading: ClipRRect(
-          //   borderRadius: BorderRadius.circular(8.0),
-          //   child: Image.asset(
-          //       'images/pills.jpg'
-          //   ),
-          // ),
+          leading: Icon(FontAwesomeIcons.prescriptionBottleMedical,),
           title: Text(course.namePill),
           subtitle: Text(TimeOfDateConvert.listInString(course.timeOfReceipt)),
           trailing: IconButton(

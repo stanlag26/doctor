@@ -102,7 +102,7 @@ class OneRecipesModel extends ChangeNotifier{
               ],
             ),
             onPressed: (BuildContext context) {
-              // _getFromCamera();
+              _getFromCamera();
               Navigator.pop(context);
             }),
       ],
@@ -118,6 +118,28 @@ class OneRecipesModel extends ChangeNotifier{
     final ImagePicker picker = ImagePicker();
     pickedFile = (await picker.pickImage(
       source: ImageSource.gallery,
+      maxWidth: 800,
+      maxHeight: 800,
+      imageQuality: 100,
+    ));
+    if (pickedFile != null) {
+
+      photoPill = pickedFile!.path;
+      print(pickedFile!.path);
+      tumbler = true;
+      notifyListeners();
+    } else {
+      return;
+    }
+  }
+
+  _getFromCamera() async {
+    if (tumbler == true) {
+      File(pickedFile!.path).delete();
+    }
+    final ImagePicker picker = ImagePicker();
+    pickedFile = (await picker.pickImage(
+      source: ImageSource.camera,
       maxWidth: 800,
       maxHeight: 800,
       imageQuality: 100,
