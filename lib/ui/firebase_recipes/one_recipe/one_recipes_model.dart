@@ -162,8 +162,12 @@ class OneRecipesModel extends ChangeNotifier{
     final course = CourseHive(namePill: namePill, descriptionPill: descriptionPill, photoPill: photoPillHive, timeOfReceipt: timeOfReceipt);
     await box.add(course);//  добавляем сохраненную группу в список
 
+
     Navigator.pushNamed(context, '/');
   }
+
+
+
 
 
 

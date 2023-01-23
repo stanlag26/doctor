@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:doctor/ui/my_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,25 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notifications',
+        defaultColor: Colors.teal,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true, channelDescription: 'basic_channel',
+        locked: true,
+        enableLights: true,
+        enableVibration: true,
+        onlyAlertOnce: false,
+        criticalAlerts: true,
+      ),
+    ],
+  );
+
   runApp(const MyApp());
 }
 

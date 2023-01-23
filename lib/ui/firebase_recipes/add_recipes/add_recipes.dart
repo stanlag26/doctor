@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../const/const.dart';
 import 'add_recipes_model.dart';
 import 'dart:io';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 
 class AddRecipesProviderWidget extends StatelessWidget {
@@ -38,6 +39,18 @@ class AddRecipes extends StatelessWidget {
           actions: [
             IconButton(
                onPressed: () async {
+                 bool result = await InternetConnectionChecker().hasConnection;
+                 if(result != true) {
+                   Fluttertoast.showToast(
+                       msg: 'Нет интернета',
+                       toastLength: Toast.LENGTH_SHORT,
+                       gravity: ToastGravity.CENTER,
+                       timeInSecForIosWeb: 1,
+                       backgroundColor: Colors.red,
+                       textColor: Colors.white,
+                       fontSize: 16.0);
+                   return;
+                 }
                  showDialog(
                      barrierDismissible: false,
                      context: context,

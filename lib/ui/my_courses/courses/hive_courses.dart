@@ -1,5 +1,7 @@
 
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:doctor/api/awesome_notifications_push/notifications.dart';
 import 'package:doctor/entity/course_hive.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,8 +22,59 @@ class CoursesProviderWidget extends StatelessWidget {
   }
 }
 
-class Courses extends StatelessWidget {
+class Courses extends StatefulWidget {
   const Courses({Key? key}) : super(key: key);
+
+  @override
+  State<Courses> createState() => _CoursesState();
+}
+
+class _CoursesState extends State<Courses> {
+
+  @override
+  void initState() {
+    super.initState();
+    AwesomeNotifications().isNotificationAllowed().then(
+          (isAllowed) {
+        if (!isAllowed) {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                AlertDialog(
+                  title: Text('Разрешить уведомления'),
+                  content: Text(
+                      'Приложение Лекарь хочет отправлять вам уведомления'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Запретить',
+                        style: TextStyle(color: Colors.grey, fontSize: 18),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          AwesomeNotifications()
+                              .requestPermissionToSendNotifications()
+                              .then((_) => Navigator.pop(context)),
+                      child: const Text(
+                        'Разрешить',
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+          );
+        }
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final model = context.watch <CoursesModel>();
@@ -83,15 +136,18 @@ class CardWidget extends StatelessWidget {
           tileColor: Colors.white,
           onTap: () {
             CourseHive courseHive = model.courses[indexInList];
-            Navigator.pushNamed(context, '/courses/one', arguments: courseHive);
+            Navigator.pushNamed(
+                context, '/courses/one', arguments: courseHive);
           },
           leading: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.file(File(model.courses[indexInList].photoPill)),
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.file(
+                File(model.courses[indexInList].photoPill)),
           ),
           title: Text(model.courses[indexInList].namePill),
           subtitle: Text(
-              TimeOfDateConvert.listInString(model.courses[indexInList].timeOfReceipt)),
+              TimeOfDateConvert.listInString(
+                  model.courses[indexInList].timeOfReceipt)),
           trailing: IconButton(
               onPressed: () {
                 _showMyDialog();
